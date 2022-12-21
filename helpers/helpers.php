@@ -59,15 +59,11 @@ function printMenu($arreglo) {
     if (!empty($arreglo)) {
         //show_dep($arreglo);
         foreach ($arreglo as $key => $data) {
-            
-            $url = (!empty($data['url'])) ? $data['url'] : "#";
-            $url_txt = (!empty($data['url'])) ? $data['url'] : "";
-            $target = (!empty($data['url'])) ? "_blank" : "_self";
-                
+                            
             if (is_array($data)) {
                 
                 $htmlMenu .= "<li>";
-                $htmlMenu .= "<a href='".$url."' target='".$target."'>".$data['menu']."<small style='font-size:9px;'>".$url_txt."</small><br><small style='font-size:7px;'>".$data['descripcion']."</small></a>";
+                $htmlMenu .= "<a href='#' target='_self'>".$data['menu']."<br><small style='font-size:7px;'>".$data['descripcion']."</small></a>";
                 if(isset($data['children']) && count($data['children']) > 0) {
                     $htmlMenu .= "<ul>";
                     $htmlMenu .= printMenu($data['children']);
