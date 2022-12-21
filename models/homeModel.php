@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 class homeModel {
     
     private $db;
 
-    public function __construct($dbc) {        
+    public function __construct(object $dbc) {        
         $this->db = $dbc;
     }
     
-    public function getRegistrosTree($id_raiz = 0) {
+    public function getRegistrosTree(int $id_raiz = 0) {
         $data = array();
         // Iniciamos la busqueda de menus
         $searchMenu = $this->getRegistros($id_raiz);
@@ -25,7 +27,7 @@ class homeModel {
                     $data[$id_raiz_busco]['menu_padre'] = $menu['menu_padre'];
                     $data[$id_raiz_busco]['descripcion'] = $menu['descripcion'];
                     $data[$id_raiz_busco]['estatus'] = $menu['estatus'];  
-                    $children = $this->getRegistrosTree($menu['id_menu']);
+                    $children = $this->getRegistrosTree(intval($menu['id_menu']));
                     if(!empty($children)) {
                         $data[$id_raiz_busco]['children'] = $children;
                     }
@@ -37,7 +39,7 @@ class homeModel {
                     $data[$id_raiz_busco]['menu_padre'] = $menu['menu_padre'];
                     $data[$id_raiz_busco]['descripcion'] = $menu['descripcion']; 
                     $data[$id_raiz_busco]['estatus'] = $menu['estatus'];
-                    $children = $this->getRegistrosTree($menu['id_menu']);
+                    $children = $this->getRegistrosTree(intval($menu['id_menu']));
                     if(!empty($children)) {
                         $data[$id_raiz_busco]['children'] = $children;
                     }
@@ -47,7 +49,7 @@ class homeModel {
         return $data;
     }
     
-    public function getRegistros($id_raiz = 0) {   
+    public function getRegistros(int $id_raiz = 0) {   
         $values = NULL;
         $filtro = " 1 = 1 ";
 
@@ -61,7 +63,7 @@ class homeModel {
         return $this->db->query("SELECT id_menu, id_raiz, menu, (SELECT menu FROM cat_menu WHERE id_menu = qry1.id_raiz) as menu_padre, descripcion, estatus FROM cat_menu AS qry1 WHERE $filtro AND estatus IS NULL ORDER BY id_raiz, id_menu, menu;", $values, 0);
     }
     
-    public function getOneRegistro($param) {
+    public function getOneRegistro(string $param) {
         
         $out = "";        
         $datos = json_decode($param);
@@ -77,14 +79,14 @@ class homeModel {
         return $out;
     }
     
-    public function insertRegistro($param) {
+    public function insertRegistro(string $param) {
         
         $out = FAILED;
         $datos = json_decode($param);
         // Parseamos los datos que viene del JSON
-        $id_raiz = $datos->id_raiz;
-        $menu = $datos->menu;
-        $descripcion = $datos->descripcion;
+        $id_raiz = intval($datos->id_raiz);
+        $menu = stringClean($datos->menu);
+        $descripcion = stringClean($datos->descripcion);
                 
         // Validamos duplicidad
         $sqlChk = "SELECT * FROM cat_menu WHERE menu = :menu AND id_raiz = :id_raiz;";
@@ -105,15 +107,15 @@ class homeModel {
         return $out;
     }
     
-    public function updateRegistro($param) {
+    public function updateRegistro(string $param) {
         
         $out = FAILED;
         $datos = json_decode($param);
         // Parseamos los datos que viene del JSON
-        $id_menu = $datos->id_menu;
-        $id_raiz = $datos->id_raiz;
-        $menu = $datos->menu;
-        $descripcion = $datos->descripcion;
+        $id_menu = intval($datos->id_menu);
+        $id_raiz = intval($datos->id_raiz);
+        $menu = stringClean($datos->menu);
+        $descripcion = stringClean($datos->descripcion);
         
         // Validamos duplicidad
         $sqlChk = "SELECT * FROM cat_menu WHERE menu = :menu AND id_raiz = :id_raiz AND id_menu != :id_menu;";
@@ -139,12 +141,12 @@ class homeModel {
         return $out;
     }
     
-    public function deleteRegistro($param) {
+    public function deleteRegistro(string $param) {
         
         $out = FAILED;
         $datos = json_decode($param);
         // Parseamos los datos que viene del JSON
-        $id_menu = $datos->id_menu;
+        $id_menu = intval($datos->id_menu);
 
         // damos de baja el registro
         $rsDel = $this->db->query("UPDATE cat_menu SET estatus = 'B' WHERE id_menu = :id_menu;", array('id_menu' => $id_menu), 0);

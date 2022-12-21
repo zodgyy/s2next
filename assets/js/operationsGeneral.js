@@ -88,10 +88,11 @@ function editarRegistro(id_menu) {
         request.send();
         request.onreadystatechange = function() {
             if(request.readyState === 4 && request.status === 200) {
+                console.log(request.responseText);
                 var objData = JSON.parse(request.responseText);
                 if (objData.status) {  
                     
-                    //console.log(objData.data);
+                    console.log(objData.data);
                     document.querySelector("#id_menu").value = objData.data.id_menu;
                     document.querySelector("#id_raiz").value = objData.data.id_raiz;
                     document.querySelector("#menu").value = objData.data.menu;

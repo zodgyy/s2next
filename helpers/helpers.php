@@ -38,6 +38,7 @@ function stringClean ($stringChk) {
     $string = str_ireplace("SELECT * FROM", "", $string);
     $string = str_ireplace("INSERT INTO", "", $string);
     $string = str_ireplace("DELETE FROM", "", $string);
+    $string = str_ireplace("UPDATE ", "", $string);
     $string = str_ireplace("DROP TABLE", "", $string);
     $string = str_ireplace("OR '1' = 1'", "", $string);
     $string = str_ireplace('OR "1" = "1"', "", $string);
