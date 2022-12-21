@@ -63,7 +63,7 @@ function printMenu($arreglo) {
             if (is_array($data)) {
                 
                 $htmlMenu .= "<li>";
-                $htmlMenu .= "<a href='#' target='_self'>".$data['menu']."<br><small style='font-size:7px;'>".$data['descripcion']."</small></a>";
+                $htmlMenu .= "<a href='#' target='_self'>".$data['menu']."<br><small>".$data['descripcion']."</small></a>";
                 if(isset($data['children']) && count($data['children']) > 0) {
                     $htmlMenu .= "<ul>";
                     $htmlMenu .= printMenu($data['children']);
