@@ -37,7 +37,7 @@ getModal('modalGeneral', $data);
                                     <th class="text-center">NIVEL</th>
                                     <th class="text-center">MENU PADRE</th>
                                     <th class="text-center">DESCRIPCION</th>
-                                    <th class="text-center">Acciones</th>
+                                    <th class="text-center">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
