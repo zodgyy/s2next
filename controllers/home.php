@@ -24,11 +24,6 @@ class home extends controllers {
                       
         $this->views->get_views($this, "home", $data);
     }
-
-    public function test() {
-        $arrHijo = $this->model->getRegistros(-1, 1);
-        show_dep($arrHijo);
-    }
     
     public function getSelectRegistros() {
         $htmlOptions = '<option value="" style="display: none;">Menus</option>';
